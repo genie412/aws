@@ -148,6 +148,8 @@ NoSQL 데이터 베이스 서비스
 - 높은 가용성 : 자동 분산 처리하며 일관되고 빠른 성능 유지
 - 용량 제한 없음
 
+</br>
+
 # IAM(Identity & Access Management : 식별 및 접근 관리)
 AWS Resource에 대한 접근을 제어할 수 있는 서비스
 Resource를 사용할 수 있도록 인증, 권한 부여된 대상 제어
@@ -158,6 +160,8 @@ root 사용자 : AWS를 처음 생성할때 생기는 모든 AWS Service, Resour
 - 모든 Region에 동일하게 사용
 - 부서별로 AWS 계정 분리 가능
 - Role : 특정 Resource에 대한 권한
+
+</br>
 
 # ELB(Elastic Load Balancing)
 둘 이상의 AZ에서 EC2 Instance, Containor, IP 주소 등 여러 대상에 걸쳐 수신되는 트래픽을 분산해주는 서비스
@@ -175,3 +179,78 @@ root 사용자 : AWS를 처음 생성할때 생기는 모든 AWS Service, Resour
 - Surge Queue Length : ELB에서 EC2 Instance로 분배되지 못하고 Qeueu에 대기중인 Request 수
 - Spillover Count : Surge Queue Full로 ELB가 거부한 Request 수
 - Pre-warning : 트래픽 증가를 예상하여 미리 처리량 증가 요청 
+
+</br>
+
+# AutoScaling
+Application 트래픽에 따라서 EC2의 수를 자동으로 확장/축소하는 서비스
+
+## 특징
+- 내결함성 향상 : EC2 Instance가 비정상적일 때 대체 Instance 시작
+- 가용성 향상 : 트래픽의 따라서 최적의 EC2 수를 설정
+- 비용관리 향상 : 필요에 따라서 용량을 동적으로 늘리거나 줄일 수 있으며 EC2 Instance 비용만 지불
+
+## 기본 개념
+- Group : EC2 Instance를 조정 및 관리하는 논리적 단위
+  - EC2 Instance의 최소, 최대, 원하는 EC2 Instance의 수 지정 가능
+- Configuration template : Group에서 EC2 Instance에 대한 구성 템플릿 사용
+  - EC2 Instance의 AMI ID, 
+- Scaling option : Group을 조정하는 방법 제시
+  - 지정한 조건의 발생(동적 확장), 일정에 따른 조정하도록 설정
+
+!AutoScaling 개요도!
+
+</br>
+
+# VPC
+AWS Resource에서의 가상 네트워크를 제공하는 서비스
+
+## 특징
+- VPN(Virtual Private Network)을 사용하여 회사 Network와 연결 가능
+- 다른 계정의 VPN과 연결 가능
+- Region별로 생성
+- Subnet은 AZ별로 생성
+- CIDR로 IP 대역 설정
+
+## 기본 개념
+- Subnet : VPC의 IP 주소 범위
+- Routing Table : 네트워크 트래픽을 전달할 위치를 결정하는데 사용하는 routing 규칙 집합
+- Internet Gateway : VPC의 Resource와 Internet간의 통신을 활성화하기 위해 VPC에 연결하는 Gateway
+- VPC Endpoint : 
+- CIDR Block : 인터넷 프로토콜 주소 할당 및 routing 집계 방법, Class 없는 도메인 간 routing
+
+</br>
+
+# S3 Glacier
+데이터 보관 및 장기 백업을 위한 안전하고 비용이 저렴 한 S3 Storage 서비스
+
+## 특징
+- S3의 Lift Circle에 따라서 오랫동안 사용되지 않은 데이터를 Glacier로 이전 가능
+
+## 기본 개념
+- Archive : 사진, 동영상, 문서 등 Valut에 저장하는 모든 객체
+  - Glacier의 기본 단위
+  - 최대 용량 : 40GB
+  - Vault에 업로드 후 수정 불가
+- Vault : Archive 저장소
+  - 최대 개수 : 100개
+- Vault Inventory : Archive의 목록과 크기, 날짜, 설명 등의 정보
+- Retrieval : Vault Inventory를 가져오는 작업과 Archive download를 준비하는 과정
+
+</br>
+
+# CloudFormation
+AWS Resource를 모델링하고 설정하여 Resource 관리 시간을 줄이고 AWS에서 실행되는 애플리케이션에 더 많은 시간을 사용하도록 해주는 서비스
+Template를 사용하여 AWS Resource 생성과 배포 자동화
+
+## 기본 개념
+- Template : JSON 또는 YAML 형식의 파일로 AWS Resource 구축을 위한 블루 프린트
+  - .json, .yaml, .template, .txt등 모든 확장자로 파일 저장 가능
+  - AWS Resource의 속성 설명
+- Stack : Template로 생성한 AWS Resource
+  
+# Elastic Beanstalk
+Application을 신속하게 배포, 관리하는 Service
+용량 프로비저닝, Load Balancing, 조정, Application Monitoring 제공
+지원하는 언어 : Go, Java, .NET, Node.js, PHP, Python, Ruby
+
